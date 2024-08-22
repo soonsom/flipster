@@ -10,6 +10,7 @@ from base import app
 from base.preconditions import Preconditions
 from cleanup import update_logfile_to_device_name
 from common import values
+from pages.page_account import AccountPage
 from pages.page_assets import AssetsPage
 from pages.page_trade import TradePage
 from utils.logger import log
@@ -156,3 +157,8 @@ def go_to_order_new_listing():
     # new_listing = self.get_api_trading_list(section="new_listing")
     new_listing = ["brett", "render", "l3", "avail"]
     TradePage().go_to_order_form(new_listing[0], section_index=2)
+
+
+@pytest.fixture(scope="function")
+def go_to_account():
+    AccountPage().go_to_account()
