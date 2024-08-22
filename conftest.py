@@ -11,6 +11,7 @@ from base.preconditions import Preconditions
 from cleanup import update_logfile_to_device_name
 from common import values
 from pages.page_assets import AssetsPage
+from pages.page_trade import TradePage
 from utils.logger import log
 
 from utils.html_report.html_report_customize import pytest_runtest_makereport
@@ -142,3 +143,8 @@ def go_to_assets():
 @pytest.fixture(scope="function")
 def go_to_identity_verification():
     AssetsPage().go_to_identity_verification()
+
+
+@pytest.fixture(scope="function")
+def go_to_trade():
+    TradePage().go_to_trade()
