@@ -54,3 +54,13 @@ class TestAssets(HelperFunctions):
 
         if soft_assertions:
             raise AssertionError(soft_assertions)
+
+    @pytest.mark.p2
+    @pytest.mark.usefixtures("go_to_identity_verification")
+    @pytest.mark.usefixtures("go_to_assets")
+    def test_assets_identity_verification(self):
+        soft_assertions = []
+
+        els_not_shown = AssetsPage().verify_displays_identity_verification()
+        if els_not_shown:
+            soft_assertions.append(f"[identity_verification] The following elements are not shown{els_not_shown} \n")

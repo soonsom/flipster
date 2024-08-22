@@ -123,3 +123,41 @@ class AssetsPage(HelperFunctions):
 
     def get_total_value(self):
         return self.get_element(get_aid("assets_ya_value_no1")).text
+
+    @Screenshot()
+    def go_to_identity_verification(self):
+        self.click_element(get_aid("assets_verify_identity_img"))
+        self.wait_for_element_present(get_xpath_by_name("identity_verification_tit"),
+                                      find_by=Selector.XPATH)
+
+    @Screenshot()
+    def verify_displays_identity_verification(self):
+        str_els = [
+            "identity_verification_tit",
+            f"identity_verification_faq_guide_{os.environ['PLATFORM']}",
+            "identity_verification_btn_faq",
+            "identity_verification_badge_level1",
+            "identity_verification_badge_level2",
+            "identity_verification_badge_level3",
+            "identity_verification_badge_level4",
+            "identity_verification_txt_verified",
+            "identity_verification_btn_verify",
+            "identity_verification_tit_email",
+            "identity_verification_tit_identity",
+            "identity_verification_tit_residential_addr",
+            "identity_verification_tit_funds",
+            "identity_verification_btn_help",
+            "identity_verification_guide1",
+            "identity_verification_guide2",
+            "identity_verification_guide3",
+        ]
+        raw_str_els_not_shown = self.get_els_not_shown(str_els,
+                                                       ios_attr_type="label",
+                                                       xpath_type=XpathType.CONTAINS)
+        if raw_str_els_not_shown:
+            self.regular_scroll_down()
+            els_not_shown = self.get_els_not_shown(raw_str_els_not_shown, xpath_type=XpathType.CONTAINS)
+        else:
+            els_not_shown = raw_str_els_not_shown
+
+        return els_not_shown
