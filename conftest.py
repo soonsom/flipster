@@ -12,6 +12,22 @@ from cleanup import update_logfile_to_device_name
 from common import values
 from pages.page_assets import AssetsPage
 from utils.logger import log
+
+from utils.html_report.html_report_customize import pytest_runtest_makereport
+
+##### pytest html report (DO NOT REMOVE for generating a html report) #####
+from utils.html_report.html_report_customize import pytest_html_report_title
+from utils.html_report.html_report_customize import pytest_html_results_table_header
+from utils.html_report.html_report_customize import pytest_html_results_table_row
+from utils.html_report.html_report_customize import pytest_html_results_table_html
+from utils.html_report.html_report_customize import pytest_html_results_summary
+from utils.html_report.html_report_customize import pytest_sessionfinish
+
+###############################
+
+tests_count = 0
+
+
 def pytest_addoption(parser):
     parser.addoption("--device", action="store", default="galaxys23")
 

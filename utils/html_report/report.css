@@ -1,0 +1,51 @@
+body {
+    font-size: 14px;
+    margin-left: 25px;
+}
+#results-table-head {
+    height: 25px;
+    font-weight: bold;
+}
+.col-result {
+    height: 20px;
+    font-weight: bold;
+    width: 170px;
+}
+.testsuite {
+    width: 170px;
+}
+.log {
+    font-size: 14px;
+}
+tbody.skipped div.log {
+    height: 100%;
+}
+tbody.error div.log, tbody.failed div.log {
+    height: 390px;
+    font-size: 12px;
+}
+#results-table {
+    font-size: 14px;
+    width: 70%
+}
+.font-color-error {
+    color: red;
+}
+.font-color-skipped {
+    color: orange;
+}
+.error-summary {
+    font-weight: bold;
+}
+.show-popup{
+  position: fixed; /*  so that not take place   */
+  top: 47%;
+  left: 35%;
+  z-index: 1000; /*  adobe all elements   */
+  transform: translate(-50%, -50%); /*  make center   */
+  display: none; /*  to hide first time   */
+}
+.show-image{
+  border: 2px solid;
+  width: 400px;
+}

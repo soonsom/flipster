@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <style>body {
+  font-family: verdana, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #E6E6E6;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+.results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+
+.results-table th,
+.results-table td {
+  padding: 5px;
+  border: 1px solid #E6E6E6;
+  text-align: left;
+}
+.title,
+.results-table th {
+  font-weight: bold;
+}
+hr {
+width: 80%;
+margin-left: 0;
+border: 1px solid #E6E6E6;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.log {
+  background-color: #e6e6e6;
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  height: 230px;
+  overflow-y: scroll;
+  padding: 5px;
+  white-space: pre-wrap;
+}
+.log:only-child {
+  height: inherit;
+}
+
+div.image {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin-left: 5px;
+  overflow: hidden;
+  width: 320px;
+}
+div.image img {
+  width: 320px;
+}
+
+div.video {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin-left: 5px;
+  overflow: hidden;
+  width: 320px;
+}
+div.video video {
+  overflow: hidden;
+  width: 320px;
+  height: 240px;
+}
+
+.collapsed {
+  display: none;
+}
+
+.expander::after {
+  content: " (show details)";
+  color: #BBB;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.collapser::after {
+  content: " (hide details)";
+  color: #BBB;
+  font-style: italic;
+  cursor: pointer;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+
+.sort-icon {
+  font-size: 0px;
+  float: left;
+  margin-right: 5px;
+  margin-top: 5px;
+  /*triangle*/
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.inactive .sort-icon {
+  /*finish triangle*/
+  border-top: 8px solid #E6E6E6;
+}
+.asc.active .sort-icon {
+  /*finish triangle*/
+  border-bottom: 8px solid #999;
+}
+.desc.active .sort-icon {
+  /*finish triangle*/
+  border-top: 8px solid #999;
+}
+
+/******************************
+ * CUSTOM CSS
+ * utils/html_report/report.css
+ ******************************/
+
+body {
+    font-size: 14px;
+    margin-left: 25px;
+}
+#results-table-head {
+    height: 25px;
+    font-weight: bold;
+}
+.col-result {
+    height: 20px;
+    font-weight: bold;
+    width: 170px;
+}
+.testsuite {
+    width: 170px;
+}
+.log {
+    font-size: 14px;
+}
+tbody.skipped div.log {
+    height: 100%;
+}
+tbody.error div.log, tbody.failed div.log {
+    height: 390px;
+    font-size: 12px;
+}
+.results-table {
+    font-size: 14px;
+    width: 70%
+}
+.font-color-error {
+    color: red;
+}
+.font-color-skipped {
+    color: orange;
+}
+.error-summary {
+    font-weight: bold;
+}
+.show-popup{
+  position: fixed; /*  so that not take place   */
+  top: 47%;
+  left: 35%;
+  z-index: 1000; /*  adobe all elements   */
+  transform: translate(-50%, -50%); /*  make center   */
+  display: none; /*  to hide first time   */
+}
+.show-image{
+  border: 2px solid;
+  width: 400px;
+}
+.failure_show{
+  display: block;
+}
+.failure_hidden {
+  display: none;
+}
+
+</style></head>
+  <body>
+    <h1>App Regression Test - Total Report</h1>
+    <h1>Summary</h1>
+    <p>- Test App Info: {{ platform }} app {{ app_version }}</p>
+    <p>- Total pass rate: <span style="font-weight:bold;">{{ total_pass_rate }}%</span></p>
+    <p>- Test Devices:
+      {% for device in devices %}
+        {{ device }}/{{ platform }} {{ platform_versions[loop.index-1] }}{% if loop.index != devices|length %},{% endif %}
+      {% endfor %}
+    </p>
+    {% for device in devices %}
+    <br />
+    <hr>
+
+    <div>
+      <h2>[{{ device }}] {{ platform }} {{ platform_versions[loop.index-1] }}</h2>
+      <p>- HTML Report: <a href="../results/TestReport_v{{ app_version }}_{{ platform }}{{ platform_versions[loop.index-1] }}_{{ device }}.html">TestReport_v{{ app_version }}_{{ platform }}{{ platform_versions[loop.index-1] }}_{{ device }}.html</a></p>
+
+      {% set final_results = test_final_results[device][0].split("/") %}
+      {% set status = ["passed", "skipped", "failed", "error", "rerun"] %}
+      {% set results_status = final_results[0].split(",") %}
+
+      <p>- Pass rate: {{ pass_rates[device][0] }}% </p>
+      <p>- summary:
+      {% for result_status in results_status %}
+        {% for stat in status %}
+          {% if stat in result_status %}
+            {% set class_name = stat %}
+            <span class="{{class_name}}"> {{ result_status }}</span>,
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+      <span> {{ final_results[-1] }}</span></p>
+      {% set failure_class_name = ["failure_hidden"] %}
+      {% for testcase_summary_ in testcase_summaries[device] if ("failed" in testcase_summary_) or ("errors" in tc_summary_|string) %}
+          {% set tmp = failure_class_name.append("failure_show") %}
+      {% endfor %}
+        <div class="{{failure_class_name[-1]}}">
+            <p>- Failures: 자세한 내용은 HTML Report에서 확인하세요.</p>
+            <table class ="results-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Test Suite</th>
+                  <th>Test Case</th>
+                </tr>
+              </thead>
+              <tbody class ="results-table-row">
+              {% for testcase_summary in testcase_summaries[device] %}
+                {% set tc_summaries = testcase_summary.split(",") %}
+                {% for tc_summary in tc_summaries %}
+                  {% if ("failed" in tc_summary) or ("errors" in tc_summary) %}
+                    <tr>
+                      <td>{{ loop.index }}</td>
+                      <td>{{ tc_summary.split("::")[1] }}</td>
+                      <td>{{ tc_summary.split("::")[-1].split("'")[0] }}</td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+
+    </div>
+    {% endfor %}
+    <div>
+      <br />
+      <hr>
+      <h1>Executed Test Cases</h1>
+      <table class="results-table">
+        <thead id="results-table-head">
+          <tr>
+            <th>No</th>
+            <th>Test Suite</th>
+            <th>Test Case</th>
+            {% for device in devices %}
+            <th>Duration<br/>- {{device}}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody class="results-table-row">
+          {% for major_testcase in major_testcases %}
+            {% set testcase_info = major_testcase.split(">") %}
+            {% set testsuite = testcase_info[0] %}
+            {% set testcase = testcase_info[1].split("|duration:")[0].strip() %}
+            {% set major_num = loop.index-1 %}
+            <tr>
+              <td>{{ major_num+1 }}</td>
+              <td>{{ testsuite }}</td>
+              <td>{{ testcase }}</td>
+              {% for device in devices %}
+                {% set testcase_duration = (testcases_with_durations[device][major_num]|string).split("|duration:") %}
+                {% set each_testcase = testcase_duration[0].split(">")[-1].strip() %}
+                {% if testcase == each_testcase %}
+                  <td>{{ testcase_duration[-1].strip() }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
