@@ -1,9 +1,11 @@
 from common import values
 from common.helper_functions import HelperFunctions
 from common.xpath_converter import get_aid, get_xpath_by_name
+from utils.screenshot import Screenshot
 
 
 class AssetsPage(HelperFunctions):
+    @Screenshot()
     def go_to_assets(self):
         self.wait_and_click_element(get_aid("gnb_assets"))
 
