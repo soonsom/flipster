@@ -64,3 +64,8 @@ class TestAssets(HelperFunctions):
         els_not_shown = AssetsPage().verify_displays_identity_verification()
         if els_not_shown:
             soft_assertions.append(f"[identity_verification] The following elements are not shown{els_not_shown} \n")
+
+        AssetsPage().go_to_identity_complete_verification()
+        els_not_shown = AssetsPage().verify_displays_identity_complete_verification()
+        if els_not_shown:
+            soft_assertions.append(f"[complete_verification] The following elements are not shown{els_not_shown} \n")

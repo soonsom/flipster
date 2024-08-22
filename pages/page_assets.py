@@ -161,3 +161,59 @@ class AssetsPage(HelperFunctions):
             els_not_shown = raw_str_els_not_shown
 
         return els_not_shown
+
+    @Screenshot()
+    def go_to_identity_complete_verification(self):
+        self.wait_and_click_element(get_xpath_by_name("identity_verification_btn_verify",
+                                                      ios_attr_type="label"),
+                                    find_by=Selector.XPATH)
+        self.wait_for_element_present(get_xpath_by_name("complete_verification_tit",
+                                                        ios_attr_type="label"),
+                                      find_by=Selector.XPATH,
+                                      timeout=10)
+
+    @Screenshot()
+    def verify_displays_identity_complete_verification(self):
+        label_els = [
+            "complete_verification_tit",
+            "complete_verification_sub_tit",
+            "complete_verification_tit_profile",
+            f"complete_verification_sub_tit_profile_{os.environ['PLATFORM']}",
+            "complete_verification_tit_selfie",
+            "complete_verification_sub_tit_selfie",
+            "complete_verification_tit_id",
+            "complete_verification_sub_tit_id",
+            f"btn_continue",
+        ]
+        els_not_shown = []
+
+        label_els_not_shown = self.get_els_not_shown(label_els,
+                                                     ios_attr_type="label",
+                                                     xpath_type=XpathType.XPATH)
+
+        if label_els_not_shown:
+            els_not_shown.append(label_els_not_shown)
+
+        if os.environ["PLATFORM"] == "android":
+            resource_id_els = [
+                f"complete_verification_btn_cls_android",
+                f"complete_verification_footer_android",
+                "complete_verification_rights_android",
+            ]
+            resource_id_els_not_shown = self.get_els_not_shown(resource_id_els,
+                                                               ios_attr_type="label",
+                                                               android_attr_type="resource-id",
+                                                               xpath_type=XpathType.XPATH)
+            if resource_id_els_not_shown:
+                els_not_shown.append(resource_id_els_not_shown)
+        else:
+            aid_els = [
+                f"common_close_btn_ios",
+                f"complete_verification_footer_ios",
+            ]
+            aid_els_not_shown = self.get_els_not_shown(aid_els,
+                                                       xpath_type=XpathType.AID)
+            if aid_els_not_shown:
+                els_not_shown.append(aid_els_not_shown)
+
+        return els_not_shown
