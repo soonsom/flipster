@@ -92,3 +92,188 @@ class AssetsPage(HelperFunctions):
         self.wait_and_click_element(get_aid("login_tab_sign_in"))
         self.wait_for_element_present(get_aid("assets_verify_identity_img"))
         values.is_logged_in = True
+
+    @Screenshot()
+    def verify_displays_assets(self):
+        aid_els_to_chk = [
+            "assets_verify_identity_img",
+            "assets_title_no1",
+            "assets_title_no1_info_icon",
+            "assets_tab_pnl_analysis",
+            "assets_title_no1_value_no1",
+            "assets_title_no1_value_no2",
+            "assets_title_no2",
+            "assets_title_no2_text_no1" ,
+            "assets_tab_order_form_positions_open",
+            "assets_tab_order_form_positions_pending",
+            "assets_positions_open_description",
+            "assets_tab_history_icon",
+            "assets_title_no3",
+            "assets_title_no3_text_no1",
+            "assets_ya_info_icon",
+            "assets_ya_value_no1",
+            "assets_ya_value_no2",
+            "assets_convert_to_usdt"
+        ]
+
+        return self.get_els_not_shown(aid_els_to_chk)
+
+    def get_balance(self):
+        return self.get_element(get_aid("assets_title_no1_value_no1")).text
+
+    def get_total_value(self):
+        return self.get_element(get_aid("assets_ya_value_no1")).text
+
+    @Screenshot()
+    def go_to_identity_verification(self):
+        self.click_element(get_aid("assets_verify_identity_img"))
+        self.wait_for_element_present(get_xpath_by_name("identity_verification_tit"),
+                                      find_by=Selector.XPATH)
+
+    @Screenshot()
+    def verify_displays_identity_verification(self):
+        str_els = [
+            "identity_verification_tit",
+            f"identity_verification_faq_guide_{os.environ['PLATFORM']}",
+            "identity_verification_btn_faq",
+            "identity_verification_badge_level1",
+            "identity_verification_badge_level2",
+            "identity_verification_badge_level3",
+            "identity_verification_badge_level4",
+            "identity_verification_txt_verified",
+            "identity_verification_btn_verify",
+            "identity_verification_tit_email",
+            "identity_verification_tit_identity",
+            "identity_verification_tit_residential_addr",
+            "identity_verification_tit_funds",
+            "identity_verification_btn_help",
+            "identity_verification_guide1",
+            "identity_verification_guide2",
+            "identity_verification_guide3",
+        ]
+        raw_str_els_not_shown = self.get_els_not_shown(str_els,
+                                                       ios_attr_type="label",
+                                                       xpath_type=XpathType.CONTAINS)
+        if raw_str_els_not_shown:
+            self.regular_scroll_down()
+            els_not_shown = self.get_els_not_shown(raw_str_els_not_shown, xpath_type=XpathType.CONTAINS)
+        else:
+            els_not_shown = raw_str_els_not_shown
+
+        return els_not_shown
+
+    @Screenshot()
+    def go_to_identity_complete_verification(self):
+        self.wait_and_click_element(get_xpath_by_name("identity_verification_btn_verify",
+                                                      ios_attr_type="label"),
+                                    find_by=Selector.XPATH)
+        self.wait_for_element_present(get_xpath_by_name("complete_verification_tit",
+                                                        ios_attr_type="label"),
+                                      find_by=Selector.XPATH,
+                                      timeout=10)
+
+    @Screenshot()
+    def verify_displays_identity_complete_verification(self):
+        label_els = [
+            "complete_verification_tit",
+            "complete_verification_sub_tit",
+            "complete_verification_tit_profile",
+            f"complete_verification_sub_tit_profile_{os.environ['PLATFORM']}",
+            "complete_verification_tit_selfie",
+            "complete_verification_sub_tit_selfie",
+            "complete_verification_tit_id",
+            "complete_verification_sub_tit_id",
+            f"btn_continue",
+        ]
+        els_not_shown = []
+
+        label_els_not_shown = self.get_els_not_shown(label_els,
+                                                     ios_attr_type="label",
+                                                     xpath_type=XpathType.XPATH)
+
+        if label_els_not_shown:
+            els_not_shown.append(label_els_not_shown)
+
+        if os.environ["PLATFORM"] == "android":
+            resource_id_els = [
+                f"complete_verification_btn_cls_android",
+                f"complete_verification_footer_android",
+                "complete_verification_rights_android",
+            ]
+            resource_id_els_not_shown = self.get_els_not_shown(resource_id_els,
+                                                               ios_attr_type="label",
+                                                               android_attr_type="resource-id",
+                                                               xpath_type=XpathType.XPATH)
+            if resource_id_els_not_shown:
+                els_not_shown.append(resource_id_els_not_shown)
+        else:
+            aid_els = [
+                f"common_close_btn_ios",
+                f"complete_verification_footer_ios",
+            ]
+            aid_els_not_shown = self.get_els_not_shown(aid_els,
+                                                       xpath_type=XpathType.AID)
+            if aid_els_not_shown:
+                els_not_shown.append(aid_els_not_shown)
+
+        return els_not_shown
+
+    @Screenshot()
+    def go_to_identity_liveness_check(self):
+        self.wait_and_click_element(get_xpath_by_name(f"btn_continue",
+                                                      ios_attr_type="label"),
+                                    find_by=Selector.XPATH)
+        self.wait_for_element_present(get_xpath_by_name("liveness_check_tit",
+                                                        ios_attr_type="label"), find_by=Selector.XPATH)
+
+    @Screenshot()
+    def verify_displays_liveness_check(self):
+        str_els = [
+            "liveness_check_tit",
+            "liveness_check_sub_tit",
+            "liveness_check_guide_tit",
+            f"btn_continue",
+            f"liveness_check_guide_android",
+        ]
+        els_not_shown = []
+
+        if os.environ["PLATFORM"] == "ios":
+            # android에서만 체크하는 엘러멘트 리스트 제거
+            str_els.pop()
+
+            # aid로 입력되어 있는 ios 엘러멘트 확인
+            aid_els = [
+                f"liveness_check_guide_ios",
+            ]
+            aid_els_not_shown = self.get_els_not_shown(aid_els,
+                                                       xpath_type=XpathType.AID)
+            if aid_els_not_shown:
+                els_not_shown.append(aid_els_not_shown)
+        else:
+            # android에서 resource-id로 입력된 엘러멘트 확인
+            rest_els = [
+                "complete_verification_rights_android",
+            ]
+            rest_els_not_shown = self.get_els_not_shown(rest_els,
+                                                        android_attr_type="resource-id",
+                                                        xpath_type=XpathType.XPATH)
+            if rest_els_not_shown:
+                els_not_shown.append(rest_els_not_shown)
+
+        str_els_not_shown = self.get_els_not_shown(str_els,
+                                                   ios_attr_type="label",
+                                                   xpath_type=XpathType.XPATH)
+        if str_els_not_shown:
+            els_not_shown.append(str_els_not_shown)
+
+        return els_not_shown
+
+    @Screenshot()
+    def close_liveness_check(self):
+        self.wait_and_click_element(get_xpath_by_name(f"complete_verification_btn_cls_{os.environ['PLATFORM']}",
+                                                      android_attr_type="resource-id"),
+                                    find_by=Selector.XPATH)
+        self.wait_for_element_present(get_xpath_by_name("complete_verification_tit",
+                                                        ios_attr_type="label"),
+                                      find_by=Selector.XPATH)
+

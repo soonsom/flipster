@@ -137,3 +137,8 @@ def teardown_driver():
 @pytest.fixture(scope="function")
 def go_to_assets():
     AssetsPage().go_to_assets()
+
+
+@pytest.fixture(scope="function")
+def go_to_identity_verification():
+    AssetsPage().go_to_identity_verification()
