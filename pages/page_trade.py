@@ -63,3 +63,10 @@ class TradePage(HelperFunctions):
                     els_not_shown.append(tmp_els_not_shown)
 
         return els_not_shown
+
+    @Screenshot()
+    def go_to_order_form(self, trading_symbol, section_index):
+        self.wait_and_click_element(get_xpath_by_direct_value(f"carousel_no{section_index}_ticker_{trading_symbol}",
+                                                              android_attr_type="content-desc"),
+                                    find_by=Selector.XPATH)
+        self.wait_for_element_present(f'{get_aid("trade_order_form")}{trading_symbol}')

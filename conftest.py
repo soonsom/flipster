@@ -148,3 +148,11 @@ def go_to_identity_verification():
 @pytest.fixture(scope="function")
 def go_to_trade():
     TradePage().go_to_trade()
+
+
+@pytest.fixture(scope="function")
+def go_to_order_new_listing():
+    # api로 리스트 값을 가져와서 위의 키 값들에 api에서 얻어온 trading 기업명을 연결해서 체크하도록 변경 필요
+    # new_listing = self.get_api_trading_list(section="new_listing")
+    new_listing = ["brett", "render", "l3", "avail"]
+    TradePage().go_to_order_form(new_listing[0], section_index=2)
