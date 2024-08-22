@@ -1,3 +1,7 @@
+import os
+
+from selenium.common import NoSuchElementException
+
 from common import values
 from common.helper_functions import HelperFunctions
 from common.xpath_converter import get_aid, get_xpath_by_name
@@ -44,3 +48,33 @@ class AssetsPage(HelperFunctions):
             assertions.append(text_els_not_shown)
 
         return assertions
+
+    @Screenshot()
+    def type_credentials(self):
+        if os.environ["PLATFORM"] == "android":
+            email = False
+            pw = False
+            textfield_android = "//android.widget.EditText"
+            els = self.get_elements(textfield_android, find_by=Selector.XPATH)
+            for el in els:
+                try:
+                    email = self.get_child_element(el, get_aid("login_textfield_email"))
+                    el.click()
+                    el.send_keys(os.environ["ID"])
+                except NoSuchElementException:
+                    try:
+                        pw = self.get_child_element(el, get_aid("login_textfield_pw"))
+                        el.click()
+                        el.send_keys(os.environ["PASSWORD"])
+                    except NoSuchElementException:
+                        pass
+        else:
+            email = self.get_element(get_xpath_by_name("login_textfield_email"), find_by=Selector.XPATH)
+            pw = self.get_element(get_xpath_by_name("login_textfield_pw"), find_by=Selector.XPATH)
+            email.click()
+            email.send_keys(os.environ["ID"])
+            pw.click()
+            pw.send_keys(os.environ["PASSWORD"])
+
+        if not email or not pw:
+            raise NoSuchElementException("either email or pw textfield not shown")
