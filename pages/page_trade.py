@@ -1,5 +1,9 @@
+import os
+
 from common.helper_functions import HelperFunctions
 from common.xpath_converter import get_aid, get_xpath_contains, get_value, get_xpath_by_direct_value
+from utils.enums import Selector, XpathType
+from utils.screenshot import Screenshot
 
 
 class TradePage(HelperFunctions):
@@ -32,3 +36,30 @@ class TradePage(HelperFunctions):
         els = self.get_updated_sectioin_list(raw_els, section_index)
 
         return self.get_els_not_shown(els)
+
+    @Screenshot()
+    def verify_trading_list(self, trading_list, section_index):
+        raw_els = [
+            "trade_carousel_no_image",
+            "trade_carousel_no_ticker",
+            "trade_carousel_no_price",
+            "trade_carousel_no_fluctuation"
+        ]
+        # 엘러멘트 xpath를 참조할 키 값을 trade_carousel_no2_image 형태로 업데이트
+        els = self.get_updated_sectioin_list(raw_els, section_index)
+
+        els_not_shown = []
+        for trading_symbol in trading_list:
+            els_for_trading = [get_value(el)+trading_symbol for el in els]
+
+            raw_els_not_shown = self.get_els_not_shown(els_for_trading, xpath_type=XpathType.DIRECT_AID)
+            if raw_els_not_shown:
+                self.swipe_to_left_on_element(xpath=get_xpath_contains(els[0],
+                                                                       android_attr_type="content-desc"),
+                                              find_by=Selector.XPATH)
+
+                tmp_els_not_shown = self.get_els_not_shown(raw_els_not_shown, xpath_type=XpathType.DIRECT_AID)
+                if tmp_els_not_shown:
+                    els_not_shown.append(tmp_els_not_shown)
+
+        return els_not_shown
