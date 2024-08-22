@@ -217,3 +217,63 @@ class AssetsPage(HelperFunctions):
                 els_not_shown.append(aid_els_not_shown)
 
         return els_not_shown
+
+    @Screenshot()
+    def go_to_identity_liveness_check(self):
+        self.wait_and_click_element(get_xpath_by_name(f"btn_continue",
+                                                      ios_attr_type="label"),
+                                    find_by=Selector.XPATH)
+        self.wait_for_element_present(get_xpath_by_name("liveness_check_tit",
+                                                        ios_attr_type="label"), find_by=Selector.XPATH)
+
+    @Screenshot()
+    def verify_displays_liveness_check(self):
+        str_els = [
+            "liveness_check_tit",
+            "liveness_check_sub_tit",
+            "liveness_check_guide_tit",
+            f"btn_continue",
+            f"liveness_check_guide_android",
+        ]
+        els_not_shown = []
+
+        if os.environ["PLATFORM"] == "ios":
+            # android에서만 체크하는 엘러멘트 리스트 제거
+            str_els.pop()
+
+            # aid로 입력되어 있는 ios 엘러멘트 확인
+            aid_els = [
+                f"liveness_check_guide_ios",
+            ]
+            aid_els_not_shown = self.get_els_not_shown(aid_els,
+                                                       xpath_type=XpathType.AID)
+            if aid_els_not_shown:
+                els_not_shown.append(aid_els_not_shown)
+        else:
+            # android에서 resource-id로 입력된 엘러멘트 확인
+            rest_els = [
+                "complete_verification_rights_android",
+            ]
+            rest_els_not_shown = self.get_els_not_shown(rest_els,
+                                                        android_attr_type="resource-id",
+                                                        xpath_type=XpathType.XPATH)
+            if rest_els_not_shown:
+                els_not_shown.append(rest_els_not_shown)
+
+        str_els_not_shown = self.get_els_not_shown(str_els,
+                                                   ios_attr_type="label",
+                                                   xpath_type=XpathType.XPATH)
+        if str_els_not_shown:
+            els_not_shown.append(str_els_not_shown)
+
+        return els_not_shown
+
+    @Screenshot()
+    def close_liveness_check(self):
+        self.wait_and_click_element(get_xpath_by_name(f"complete_verification_btn_cls_{os.environ['PLATFORM']}",
+                                                      android_attr_type="resource-id"),
+                                    find_by=Selector.XPATH)
+        self.wait_for_element_present(get_xpath_by_name("complete_verification_tit",
+                                                        ios_attr_type="label"),
+                                      find_by=Selector.XPATH)
+

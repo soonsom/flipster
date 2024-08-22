@@ -69,3 +69,14 @@ class TestAssets(HelperFunctions):
         els_not_shown = AssetsPage().verify_displays_identity_complete_verification()
         if els_not_shown:
             soft_assertions.append(f"[complete_verification] The following elements are not shown{els_not_shown} \n")
+
+        AssetsPage().go_to_identity_liveness_check()
+        els_not_shown = AssetsPage().verify_displays_liveness_check()
+        if els_not_shown:
+            soft_assertions.append(f"[liveness_check] The following elements are not shown{els_not_shown} \n")
+
+        AssetsPage().close_liveness_check()
+
+        # 디스플레이 체크 오류가 있는 경우 AssertionError 발생
+        if soft_assertions:
+            raise AssertionError(soft_assertions)
