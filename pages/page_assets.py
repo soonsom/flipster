@@ -117,3 +117,9 @@ class AssetsPage(HelperFunctions):
         ]
 
         return self.get_els_not_shown(aid_els_to_chk)
+
+    def get_balance(self):
+        return self.get_element(get_aid("assets_title_no1_value_no1")).text
+
+    def get_total_value(self):
+        return self.get_element(get_aid("assets_ya_value_no1")).text
