@@ -39,6 +39,17 @@ def pytest_runtestloop(session):
     load_dotenv(os.path.abspath(f'./testinfo-{session.config.getoption("device")}.env'))
 
 
+def pytest_collection_modifyitems(items):
+    first_item = None
+    for item in items:
+        if item.name == "test_assets_login":
+            first_item = item
+            items.remove(item)
+            break
+    if first_item:
+        items.insert(0, first_item)
+
+
 @pytest.mark.trylast
 def pytest_terminal_summary(terminalreporter, exitstatus, config):
     global tests_count
