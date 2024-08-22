@@ -92,3 +92,28 @@ class AssetsPage(HelperFunctions):
         self.wait_and_click_element(get_aid("login_tab_sign_in"))
         self.wait_for_element_present(get_aid("assets_verify_identity_img"))
         values.is_logged_in = True
+
+    @Screenshot()
+    def verify_displays_assets(self):
+        aid_els_to_chk = [
+            "assets_verify_identity_img",
+            "assets_title_no1",
+            "assets_title_no1_info_icon",
+            "assets_tab_pnl_analysis",
+            "assets_title_no1_value_no1",
+            "assets_title_no1_value_no2",
+            "assets_title_no2",
+            "assets_title_no2_text_no1" ,
+            "assets_tab_order_form_positions_open",
+            "assets_tab_order_form_positions_pending",
+            "assets_positions_open_description",
+            "assets_tab_history_icon",
+            "assets_title_no3",
+            "assets_title_no3_text_no1",
+            "assets_ya_info_icon",
+            "assets_ya_value_no1",
+            "assets_ya_value_no2",
+            "assets_convert_to_usdt"
+        ]
+
+        return self.get_els_not_shown(aid_els_to_chk)
