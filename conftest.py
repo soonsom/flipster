@@ -10,6 +10,7 @@ from base import app
 from base.preconditions import Preconditions
 from cleanup import update_logfile_to_device_name
 from common import values
+from pages.page_account import AccountPage
 from pages.page_assets import AssetsPage
 from pages.page_trade import TradePage
 from utils.logger import log
@@ -36,6 +37,17 @@ def pytest_addoption(parser):
 def pytest_runtestloop(session):
     # 테스트 전반에 env 파일의 환경변수를 사용하기 위해 테스트 시작 시점에 load
     load_dotenv(os.path.abspath(f'./testinfo-{session.config.getoption("device")}.env'))
+
+
+def pytest_collection_modifyitems(items):
+    first_item = None
+    for item in items:
+        if item.name == "test_assets_login":
+            first_item = item
+            items.remove(item)
+            break
+    if first_item:
+        items.insert(0, first_item)
 
 
 @pytest.mark.trylast
@@ -156,3 +168,8 @@ def go_to_order_new_listing():
     # new_listing = self.get_api_trading_list(section="new_listing")
     new_listing = ["brett", "render", "l3", "avail"]
     TradePage().go_to_order_form(new_listing[0], section_index=2)
+
+
+@pytest.fixture(scope="function")
+def go_to_account():
+    AccountPage().go_to_account()
