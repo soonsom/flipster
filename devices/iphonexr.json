@@ -1,0 +1,32 @@
+{
+  "capabilities":
+  [
+    {
+      "platformName": "iOS",
+      "deviceName": "iPhone XR",
+      "platformVersion":"15.5",
+      "xcodeSigningId": "iPhone Developer",
+      "bundleID": "com.aqx.prex",
+      "udid": "00008020-001564410109002E",
+      "automationName": "XCUITest",
+      "keepKeyChains": true,
+      "noReset": false,
+      "maxInstances": 1,
+      "wdaLocalPort": 1205,
+      "mjpegServerPort": 2205
+    }
+  ],
+  "configuration": {
+    "cleanUpCycle":2000,
+    "timeout":30000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://127.0.0.1:5005/wd/hub",
+    "host": "127.0.0.1",
+    "port": 5005,
+    "maxSession": 1,
+    "register": true,
+    "registerCycle": 5000,
+    "hubPort": 4444,
+    "hubHost": "127.0.0.1"
+  }
+}

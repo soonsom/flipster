@@ -1,0 +1,30 @@
+{
+  "capabilities":
+  [
+    {
+      "platformName": "Android",
+      "deviceName": "SM-G991N",
+      "platformVersion":"12.0",
+      "udid": "R3CR602P1DJ",
+      "automationName": "uiautomator2",
+      "appPackage": "com.prestolabs.android.prex",
+      "appActivity": "com.prestolabs.android.prex.presentations.ui.MainActivity",
+      "uiautomator2ServerInstallTimeout": 50000,
+      "noReset": false,
+      "maxInstances": 1
+    }
+  ],
+  "configuration": {
+    "cleanUpCycle":2000,
+    "timeout":30000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://127.0.0.1:7001/wd/hub",
+    "host": "127.0.0.1",
+    "port": 7001,
+    "maxSession": 1,
+    "register": true,
+    "registerCycle": 5000,
+    "hubPort": 4444,
+    "hubHost": "127.0.0.1"
+  }
+}

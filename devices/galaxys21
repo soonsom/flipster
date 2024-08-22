@@ -1,0 +1,1 @@
+appium  --nodeconfig $(pwd)/galaxys21.json --base-path=/wd/hub --address 127.0.0.1 --port 7001
