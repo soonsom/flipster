@@ -10,6 +10,7 @@ from base import app
 from base.preconditions import Preconditions
 from cleanup import update_logfile_to_device_name
 from common import values
+from pages.page_assets import AssetsPage
 from utils.logger import log
 def pytest_addoption(parser):
     parser.addoption("--device", action="store", default="galaxys23")
@@ -115,3 +116,8 @@ def teardown_driver():
     log.debug(">>>>>>>>>>> teardown driver")
 
     app.close_app()
+
+
+@pytest.fixture(scope="function")
+def go_to_assets():
+    AssetsPage().go_to_assets()
