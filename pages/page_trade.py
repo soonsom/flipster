@@ -70,3 +70,20 @@ class TradePage(HelperFunctions):
                                                               android_attr_type="content-desc"),
                                     find_by=Selector.XPATH)
         self.wait_for_element_present(f'{get_aid("trade_order_form")}{trading_symbol}')
+
+    @Screenshot()
+    def verify_displays_order_form(self):
+        els = [
+            "order_form",
+            f"order_form_favorite_icon_unselected_{os.environ['PLATFORM']}",
+            "order_form_price_",
+            "order_form_tab_chart_funding_info",
+            "order_form_chart_funding_rate",
+            "order_form_chart_funding_time",
+            "order_form_tab_order_form_chart",
+            "order_form_tab_order_form_stats",
+            f"order_form_chart_container_{os.environ['PLATFORM']}",
+            "back_icon"
+        ]
+        els_not_shown = self.get_els_not_shown(els, xpath_type=XpathType.CONTAINS)
+        return els_not_shown

@@ -67,3 +67,8 @@ class TestTrade:
 
         if soft_assertions:
             raise AssertionError(f"The following list are not shown: {soft_assertions}")
+
+    @pytest.mark.usefixtures("go_to_order_new_listing")
+    @pytest.mark.usefixtures("go_to_trade")
+    def test_order_form(self):
+        TradePage().verify_displays_order_form()
