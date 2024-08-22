@@ -78,3 +78,17 @@ class AssetsPage(HelperFunctions):
 
         if not email or not pw:
             raise NoSuchElementException("either email or pw textfield not shown")
+
+    @Screenshot()
+    def login(self):
+        self.type_credentials()
+        if os.environ["PLATFORM"] == "android":
+            self.hide_keyboard()
+        else:
+            lo = self.get_element_location(get_aid("login_tab_forgot_your_password"))
+            width = self.get_element_size(get_aid("login_tab_forgot_your_password"))["width"]
+            self.scroll_by_coordinate(start_y=lo["y"], end_y=0)
+
+        self.wait_and_click_element(get_aid("login_tab_sign_in"))
+        self.wait_for_element_present(get_aid("assets_verify_identity_img"))
+        values.is_logged_in = True
