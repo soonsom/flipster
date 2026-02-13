@@ -1,5 +1,12 @@
 # Flipster Test Automation for iOS and Android
 * * *
+- pytest-based framework design
+- multi-device parallel execution using Selenium Grid + Appium
+- environment-driven test configuration
+- automated video recording & HTML reporting
+- CI-friendly execution scripts
+  
+* * *
 - Selenium Grid 3.141.59
 - Appium v.2.7.1
 - Python3 v3.8 이상
